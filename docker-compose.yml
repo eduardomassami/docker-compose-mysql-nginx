@@ -1,0 +1,26 @@
+version: "3"
+
+networks:
+  aula3:
+    driver: bridge
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: always
+    networks:
+      - aula3
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=aula3
+      - MYSQL_TCP_PORT=3306
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - aula3
+    depends_on:
+      - mysqldb
